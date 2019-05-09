@@ -3,6 +3,7 @@ const express = require('express');
 const { upload, uploaded } = require('./utility/upload');
 const { unzip } = require('./utility/unzip');
 const { createTar } = require('./utility/create-tar');
+const { createApp } = require('./utility/createApp');
 const { buildApp } = require('./utility/build');
 
 const app = express();
@@ -16,6 +17,7 @@ app.post('/deployApp/:appName', upload.single('file'), async (req, res) => {
 		await unzip(fileName);
 		fileName = fileName.split('.')[0];
 		await createTar(fileName);
+		await createApp(app);
 		await buildApp(fileName, app);
 	} catch (err) {
 		console.log(err);
