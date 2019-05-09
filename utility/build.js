@@ -1,8 +1,9 @@
 const Heroku = require('heroku-client');
-const heroku = new Heroku({ token: '7948305b-26ae-4a95-ba05-a06c2989b421' });
+const request = require('request-promise');
+const fs = require('fs');
+const { token } = require('../keys/heroku');
 
-var request = require('request-promise');
-var fs = require('fs');
+const heroku = new Heroku({ token: token });
 
 async function buildApp(file, app) {
 	let putUrl;
