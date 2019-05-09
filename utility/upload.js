@@ -12,9 +12,9 @@ const storage = multer.diskStorage({
 const upload = multer({ storage: storage });
 
 const uploaded = (req, res) => {
+	console.log('. . . . . . . . . .');
 	console.log(`File ${req.file.originalname} uploaded!`);
-	console.log(req.file);
-	res.send(`File ${req.file.originalname} uploaded!`);
+	return req.file.originalname;
 };
 
 module.exports = { upload, uploaded };

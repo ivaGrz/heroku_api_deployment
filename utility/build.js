@@ -4,29 +4,28 @@ const heroku = new Heroku({ token: '7948305b-26ae-4a95-ba05-a06c2989b421' });
 var request = require('request-promise');
 var fs = require('fs');
 
-async function buildApp(req, res) {
-	const file = req.query.fileName;
-	const app = req.query.appName;
-	console.log(req.query);
+async function buildApp(file, app) {
 	let putUrl;
 	let getUrl;
+
+	console.log('Starting building the app . . .');
+	console.log('. . . . . . . . . .');
+	console.log('Getting source URL . . .');
 
 	await heroku
 		.post(`/apps/${app}/sources`)
 		.then(res => {
 			putUrl = res.source_blob.put_url;
 			getUrl = res.source_blob.get_url;
-			// console.log('putUrl', putUrl);
-			// console.log('getUrl', getUrl);
 			console.log(res);
 		})
 		.catch(err => console.log(err));
 
 	const buffer = await fs.readFileSync(`./apps/${file}.tgz`);
-	console.log(buffer);
+	// console.log(buffer);
 
-	console.log('--------------------');
-	console.log('Uploading data ...');
+	console.log('. . . . . . . . . .');
+	console.log('Uploading data . . .');
 
 	await request(
 		{
@@ -45,8 +44,8 @@ async function buildApp(req, res) {
 		}
 	);
 
-	console.log('--------------------');
-	console.log(`Building app ${app} ...`);
+	console.log('. . . . . . . . . .');
+	console.log(`Building app ${app} . . .`);
 
 	await heroku
 		.post(`/apps/${app}/builds`, {
@@ -65,9 +64,11 @@ async function buildApp(req, res) {
 		.catch(err => console.log(err));
 
 	await heroku.get(`/apps/${app}`).then(res => {
-		console.log('--------------------');
+		console.log('. . . . . . . . . .');
 		console.log(`Application deployed!`);
+		console.log('. . . . . . . . . .');
 		console.log(res.web_url);
+		console.log('. . . . . . . . . .');
 	});
 }
 

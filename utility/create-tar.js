@@ -1,8 +1,7 @@
 const tar = require('tar');
 
-const createTar = async (req, res) => {
-	console.log('Creating tarball ...');
-	const fileName = req.params.fileName;
+const createTar = async fileName => {
+	console.log('Creating tarball . . .');
 	await tar.c(
 		{
 			file: `./apps/${fileName}.tgz`
@@ -10,7 +9,6 @@ const createTar = async (req, res) => {
 		[`./apps/${fileName}`]
 	);
 	console.log('Tarball created');
-	res.send('Tarball created');
 };
 
 module.exports = { createTar };
