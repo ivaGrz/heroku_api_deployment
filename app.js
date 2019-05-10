@@ -5,6 +5,7 @@ const { unzip } = require('./utility/unzip');
 const { createTar } = require('./utility/create-tar');
 const { createApp } = require('./utility/createApp');
 const { buildApp } = require('./utility/build');
+const { createClearDB } = require('./utility/createClearDB');
 
 const app = express();
 const port = 3000;
@@ -22,6 +23,13 @@ app.post('/deployApp/:appName', upload.single('file'), async (req, res) => {
 	} catch (err) {
 		console.log(err);
 	}
+});
+
+app.post('/createClearDB/:appName', async (req, res) => {
+	const app = req.params.appName;
+	const dbConfig = await createClearDB(app);
+	console.log(dbConfig);
+	res.send(dbConfig);
 });
 
 // ******************************************************
