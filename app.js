@@ -1,4 +1,5 @@
 const express = require('express');
+const cors = require('cors');
 
 const { upload, uploaded } = require('./utility/upload');
 const { unzip } = require('./utility/unzip');
@@ -8,6 +9,8 @@ const { buildApp } = require('./utility/build');
 const { createClearDB } = require('./utility/createClearDB');
 
 const app = express();
+app.use(cors());
+
 const port = 3000;
 
 app.post('/deployApp/:appName', upload.single('file'), async (req, res) => {
@@ -19,7 +22,8 @@ app.post('/deployApp/:appName', upload.single('file'), async (req, res) => {
 		fileName = fileName.split('.')[0];
 		await createTar(fileName);
 		await createApp(app);
-		await buildApp(fileName, app);
+		const appUrl = await buildApp(fileName, app);
+		res.send(appUrl);
 	} catch (err) {
 		console.log(err);
 	}

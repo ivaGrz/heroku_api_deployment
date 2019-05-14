@@ -64,12 +64,13 @@ async function buildApp(file, app) {
 		})
 		.catch(err => console.log(err));
 
-	await heroku.get(`/apps/${app}`).then(res => {
+	return await heroku.get(`/apps/${app}`).then(res => {
 		console.log('. . . . . . . . . .');
 		console.log(`Application deployed!`);
 		console.log('. . . . . . . . . .');
 		console.log(res.web_url);
 		console.log('. . . . . . . . . .');
+		return res.web_url;
 	});
 }
 
