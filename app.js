@@ -13,16 +13,17 @@ app.use(cors());
 
 const port = 3000;
 
-app.post('/deployApp/:appName', upload.single('file'), async (req, res) => {
+app.post('/deployApp', upload.single('file'), async (req, res) => {
 	try {
-		const app = req.params.appName;
+		const app = req.query.app;
+		const token = req.query.token;
 		console.log('Uploading . . .');
 		let fileName = await uploaded(req, res);
 		await unzip(fileName);
 		fileName = fileName.split('.')[0];
 		await createTar(fileName);
-		await createApp(app);
-		const appUrl = await buildApp(fileName, app);
+		await createApp(app, token);
+		const appUrl = await buildApp(fileName, app, token);
 		res.send(appUrl);
 	} catch (err) {
 		console.log(err);

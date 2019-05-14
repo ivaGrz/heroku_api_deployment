@@ -1,9 +1,11 @@
 const Heroku = require('heroku-client');
-const { token } = require('../keys/heroku');
+// const { token } = require('../keys/heroku');
 
-const heroku = new Heroku({ token: token });
+// const heroku = new Heroku({ token: token });
 
-createApp = async appName => {
+createApp = async (appName, token) => {
+	const heroku = new Heroku({ token: token });
+
 	let appExists;
 	await heroku
 		.get(`/apps/${appName}`)
