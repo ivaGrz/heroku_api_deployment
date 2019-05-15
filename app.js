@@ -27,6 +27,7 @@ app.post('/deployApp', upload.single('file'), async (req, res) => {
 		res.send(appUrl);
 	} catch (err) {
 		console.log(err);
+		res.status(400).send(err);
 	}
 });
 

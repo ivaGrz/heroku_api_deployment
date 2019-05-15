@@ -7,6 +7,7 @@ const unzip = async file => {
 		fs.createReadStream(`upload/${file}`)
 			.pipe(unzipper.Extract({ path: 'apps' }))
 			.on('error', err => {
+				console.log(err);
 				reject(err);
 			})
 			.on('finish', () => {

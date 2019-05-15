@@ -14,8 +14,12 @@ createApp = async (appName, token) => {
 			appExists = true;
 		})
 		.catch(err => {
-			console.log(`${appName} not found!`);
-			appExists = false;
+			if (err.statusCode === 404) {
+				console.log(`${appName} not found!`);
+				appExists = false;
+			} else {
+				throw err;
+			}
 		});
 
 	if (!appExists) {
@@ -27,7 +31,9 @@ createApp = async (appName, token) => {
 				}
 			})
 			.then(res => console.log(res))
-			.catch(err => console.log(err));
+			.catch(err => {
+				throw err;
+			});
 	}
 };
 

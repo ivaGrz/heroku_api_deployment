@@ -22,7 +22,9 @@ async function buildApp(file, app, token) {
 			getUrl = res.source_blob.get_url;
 			console.log(res);
 		})
-		.catch(err => console.log(err));
+		.catch(err => {
+			throw err;
+		});
 
 	const buffer = await fs.readFileSync(`./apps/${file}.tgz`);
 	// console.log(buffer);
@@ -41,7 +43,7 @@ async function buildApp(file, app, token) {
 		},
 		(err, res) => {
 			if (err) {
-				return console.log(err);
+				throw err;
 			}
 			console.log('Data uploaded!');
 		}
@@ -64,16 +66,23 @@ async function buildApp(file, app, token) {
 		.then(res => {
 			console.log(res);
 		})
-		.catch(err => console.log(err));
+		.catch(err => {
+			throw err;
+		});
 
-	return await heroku.get(`/apps/${app}`).then(res => {
-		console.log('. . . . . . . . . .');
-		console.log(`Application deployed!`);
-		console.log('. . . . . . . . . .');
-		console.log(res.web_url);
-		console.log('. . . . . . . . . .');
-		return res.web_url;
-	});
+	return await heroku
+		.get(`/apps/${app}`)
+		.then(res => {
+			console.log('. . . . . . . . . .');
+			console.log(`Application deployed!`);
+			console.log('. . . . . . . . . .');
+			console.log(res.web_url);
+			console.log('. . . . . . . . . .');
+			return res.web_url;
+		})
+		.catch(err => {
+			throw err;
+		});
 }
 
 module.exports = { buildApp };

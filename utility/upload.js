@@ -12,9 +12,23 @@ const storage = multer.diskStorage({
 const upload = multer({ storage: storage });
 
 const uploaded = (req, res) => {
+	const name = req.file.originalname;
+	const extension = getExtension(name);
+	if (extension !== 'zip') {
+		throw {
+			body: {
+				message: 'Invalid file type. Please select a .zip file.'
+			}
+		};
+	}
 	console.log('. . . . . . . . . .');
 	console.log(`File ${req.file.originalname} uploaded!`);
 	return req.file.originalname;
+};
+
+const getExtension = filename => {
+	const parts = filename.split('.');
+	return parts[parts.length - 1];
 };
 
 module.exports = { upload, uploaded };
