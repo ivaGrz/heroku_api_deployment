@@ -8,6 +8,7 @@ const { createApp } = require('./utility/createApp');
 const { buildApp } = require('./utility/build');
 const { createClearDB } = require('./utility/createClearDB');
 const { dumpSQLFile } = require('./utility/dumpSQLFile');
+const { cleaner } = require('./utility/cleaner');
 
 const app = express();
 app.use(cors());
@@ -94,6 +95,12 @@ app.post('/build', (req, res) => {
 	const file = req.query.fileName;
 	const app = req.query.appName;
 	buildApp(file, app);
+});
+
+app.post('/clean', async (req, res) => {
+	await cleaner('upload');
+	await cleaner('apps');
+	res.send('Done');
 });
 
 app.listen(port, () => console.log(`App listening on port ${port}!`));
