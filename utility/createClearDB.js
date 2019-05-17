@@ -1,11 +1,10 @@
 // https://devcenter.heroku.com/articles/platform-api-reference#add-on
 
 const Heroku = require('heroku-client');
-const { token } = require('../keys/heroku');
 
-const heroku = new Heroku({ token: token });
+const createClearDB = async (appName, token) => {
+	const heroku = new Heroku({ token: token });
 
-const createClearDB = async appName => {
 	// ***** CREATE ADDON *****
 	let dbName;
 	await heroku
