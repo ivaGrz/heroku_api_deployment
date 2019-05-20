@@ -17,7 +17,9 @@ const createClearDB = async (appName, token) => {
 			// console.log(res);
 			dbName = res.name;
 		})
-		.catch(err => console.log(err));
+		.catch(err => {
+			throw err;
+		});
 
 	// ***** GET ADDON CONFIG *****
 	return await heroku
@@ -36,7 +38,9 @@ const createClearDB = async (appName, token) => {
 			};
 			return dbConfig;
 		})
-		.catch(err => console.log(err));
+		.catch(err => {
+			throw err;
+		});
 };
 
 module.exports = { createClearDB };

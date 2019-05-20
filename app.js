@@ -1,5 +1,6 @@
 const express = require('express');
 const cors = require('cors');
+const fs = require('fs');
 
 const { upload, uploaded } = require('./utility/upload');
 const { unzip } = require('./utility/unzip');
@@ -41,11 +42,16 @@ app.post('/deployApp', upload.single('file'), async (req, res) => {
 });
 
 app.post('/createClearDB', async (req, res) => {
-	const app = req.query.app;
-	const token = req.query.token;
-	const dbConfig = await createClearDB(app, token);
-	console.log(dbConfig);
-	res.send(dbConfig);
+	try {
+		const app = req.query.app;
+		const token = req.query.token;
+		const dbConfig = await createClearDB(app, token);
+		console.log(dbConfig);
+		res.send(dbConfig);
+	} catch (err) {
+		console.log(err);
+		res.status(400).send(err);
+	}
 });
 
 app.post('/dumpSQLFile', async (req, res) => {
