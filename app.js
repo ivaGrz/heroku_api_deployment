@@ -45,6 +45,7 @@ app.post('/createClearDB', async (req, res) => {
 	try {
 		const app = req.query.app;
 		const token = req.query.token;
+		await createApp(app, token);
 		const dbConfig = await createClearDB(app, token);
 		console.log(dbConfig);
 		res.send(dbConfig);
